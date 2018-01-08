@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     fetchProfile: function () {
-      this.axios.get('http://localhost:8000/api/auth/user', {
+      this.axios.get(this.$config.API + '/auth/user', {
         params: {
           token: this.$localStorage.get('token')
         }
