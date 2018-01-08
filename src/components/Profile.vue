@@ -1,34 +1,21 @@
 <template>
   <div class="container col-3">
-    <b-form>
+    <b-form v-on:submit="update" method="post">
     <div class="form-group row">
       <label>Name</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0">
-        <b-input id="name" placeholder="name" />
-      </b-input>
+        <b-input v-model="name" placeholder="name" />
     </div>
     <div class="form-group row">
       <label>Email</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0">
-        <b-input id="email" placeholder="Email" />
-      </b-input>
+        <b-input v-model="email" placeholder="Email" />
     </div>
     <div class="form-group row">
       <label>Password</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0">
-        <b-input id="password" placeholder="password" />
-      </b-input>
-    </div>
-    <div class="form-group row">
-      <label>Password</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0">
-        <b-input id="password" placeholder="password" />
-      </b-input>
+        <b-input v-model="password" placeholder="password" type="password"/>
     </div>
       <div class="form-group row">
-        <b-button variant="primary">Update</b-button>
+        <b-button variant="primary" type="submit">Register</b-button>
       </div>
-
     </b-form>
   </div>
 </template>
@@ -38,7 +25,38 @@ export default {
   name: 'Profile',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      name: '',
+      email: '',
+      password: ''
+    }
+  },
+  created () {
+    this.fetchProfile()
+  },
+  watch: {
+    '$route': 'fetchData'
+  },
+  methods: {
+    fetchProfile: function () {
+      this.axios.get('http://localhost:8000/api/auth/user', {
+        params: {
+          token: this.$localStorage.get('token')
+        }
+      }).then((response) => {
+        this.name = response.data.result.name
+        this.email = response.data.result.email
+      })
+    },
+    update: function (event) {
+      event.preventDefault()
+      this.axios.post(this.$config.API + '/auth/profile', {
+        token: this.$localStorage.get('token'),
+        name: this.name,
+        email: this.email,
+        password: this.password
+      }).then((response) => {
+        console.log(response)
+      })
     }
   }
 }

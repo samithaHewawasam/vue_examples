@@ -1,11 +1,9 @@
 <template>
   <div class="container col-3">
-    <b-form>
+    <b-form v-on:submit="taskcreate" method="post">
     <div class="form-group row">
       <label>Task</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0">
-        <b-input id="name" placeholder="name" />
-      </b-input>
+        <b-input v-model="task" placeholder="name" />
     </div>
     <div class="form-group row">
       <b-button variant="primary">Save</b-button>
@@ -21,7 +19,18 @@ export default {
   name: 'Task',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      task: ''
+    }
+  },
+  methods: {
+    taskcreate: function (event) {
+      event.preventDefault()
+      this.axios.post(this.api_url + '/auth/login', {
+        task: this.task,
+        token: this.$localStorage.get('token')
+      }).then((response) => {
+        console.log(response.data)
+      })
     }
   }
 }

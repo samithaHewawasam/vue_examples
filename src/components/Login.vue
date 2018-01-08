@@ -3,15 +3,11 @@
     <b-form v-on:submit="login" method="post">
     <div class="form-group row">
       <label>Email</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0">
-        <b-input  ref="username" placeholder="Username" />
-      </b-input>
+        <b-form-input v-model="username" placeholder="Username" />
     </div>
     <div class="form-group row">
       <label>Password</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0">
         <b-input v-model="password" placeholder="password" />
-      </b-input>
     </div>
       <div class="form-group row">
         <b-button type="submit">Login</b-button>
@@ -26,15 +22,20 @@ export default {
   name: 'login',
   data () {
     return {
-      username: 'fgdfg',
+      username: '',
       password: ''
     }
   },
   methods: {
     login: function (event) {
-      this.username = this.$refs.username.value
-      alert(this.username)
       event.preventDefault()
+      this.axios.post(this.$config.API + '/auth/login', {
+        email: this.username,
+        password: this.password
+      }).then((response) => {
+        console.log(response.data)
+        this.$localStorage.set('token', response.data.result.token)
+      })
     }
   }
 }

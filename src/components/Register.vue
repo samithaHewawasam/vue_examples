@@ -1,34 +1,21 @@
 <template>
   <div class="container col-3">
-    <b-form>
+    <b-form v-on:submit="register" method="post">
     <div class="form-group row">
       <label>Name</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0">
-        <b-input id="name" placeholder="name" />
-      </b-input>
+        <b-input v-model="name" placeholder="name" />
     </div>
     <div class="form-group row">
       <label>Email</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0">
-        <b-input id="email" placeholder="Email" />
-      </b-input>
+        <b-input v-model="email" placeholder="Email" />
     </div>
     <div class="form-group row">
       <label>Password</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0">
-        <b-input id="password" placeholder="password" />
-      </b-input>
-    </div>
-    <div class="form-group row">
-      <label>Password</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0">
-        <b-input id="password" placeholder="password" />
-      </b-input>
+        <b-input v-model="password" placeholder="password" />
     </div>
       <div class="form-group row">
-        <b-button variant="primary">Register</b-button>
+        <b-button variant="primary" type="submit">Register</b-button>
       </div>
-
     </b-form>
   </div>
 </template>
@@ -38,7 +25,21 @@ export default {
   name: 'Register',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      name: '',
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    register: function (event) {
+      event.preventDefault()
+      this.axios.post(this.$config.API + '/auth/register', {
+        name: this.name,
+        email: this.email,
+        password: this.password
+      }).then((response) => {
+        console.log(response.data)
+      })
     }
   }
 }
