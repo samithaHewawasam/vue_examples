@@ -20,7 +20,8 @@
     "vue": "^2.5.2",
     "vue-axios": "^2.0.2",
     "vue-localstorage": "^0.6.1",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuejs-datepicker": "^0.9.22"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

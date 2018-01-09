@@ -6,17 +6,21 @@
         <b-input v-model="task" placeholder="name" />
     </div>
     <div class="form-group row">
+      <label>Due Date</label>
+        <datepicker v-model="dueDate" name="uniquename"></datepicker>
+    </div>
+    <div class="form-group row">
       <b-button variant="primary" type="submit">Save</b-button>
     </div>
     </b-form>
     <div class="panel-body">
     <table class="table table-striped task-table">
       <thead>
-        <tr><th>#</th><th>name</th><th>delete</th><th>complete</th></tr>
+        <tr><th>#</th><th>Name</th><th>Due Date</th><th>Delete</th><th>Status</th></tr>
       </thead>
       <tbody>
         <tr v-for="(task, index) in tasks">
-          <td>{{index + 1}}</td><td>{{task.name}}</td>
+          <td>{{index + 1}}</td><td>{{task.name}}</td><td>{{task.dueDate}}</td>
           <td><b-button variant="danger" v-on:click="deleteTask(index, task.id)">Delete</b-button></td>
           <td>
             <b-button variant="success" v-on:click="completeTask(task.id)" v-if="!task.done">Complete</b-button>
@@ -30,13 +34,20 @@
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker'
+import moment from 'moment'
+
 export default {
   name: 'Task',
   data () {
     return {
       task: '',
-      tasks: []
+      tasks: [],
+      dueDate: ''
     }
+  },
+  components: {
+    Datepicker
   },
   created () {
     this.fetchTasks()
@@ -58,10 +69,13 @@ export default {
       event.preventDefault()
       this.axios.post(this.$config.API + '/create_task', {
         name: this.task,
+        dueDate: moment(this.dueDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
         token: this.$localStorage.get('token')
       }).then((response) => {
         if (response.data.response === 'success') {
           this.fetchTasks()
+          this.task = ''
+          this.dueDate = ''
         }
       })
     },
