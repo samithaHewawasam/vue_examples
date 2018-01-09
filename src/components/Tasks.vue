@@ -12,12 +12,16 @@
     <div class="panel-body">
     <table class="table table-striped task-table">
       <thead>
-        <tr><th>#</th><th>name</th><th>delete</th></tr>
+        <tr><th>#</th><th>name</th><th>delete</th><th>complete</th></tr>
       </thead>
       <tbody>
         <tr v-for="(task, index) in tasks">
           <td>{{index + 1}}</td><td>{{task.name}}</td>
           <td><b-button variant="danger" v-on:click="deleteTask(index, task.id)">Delete</b-button></td>
+          <td>
+            <b-button variant="success" v-on:click="completeTask(task.id)" v-if="!task.done">Complete</b-button>
+            <p v-else>Done</p>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -68,6 +72,16 @@ export default {
       }).then((response) => {
         if (response.data.result) {
           this.tasks.splice(index, 1)
+        }
+      })
+    },
+    completeTask: function (id) {
+      this.axios.post(this.$config.API + '/complete_task', {
+        id: id,
+        token: this.$localStorage.get('token')
+      }).then((response) => {
+        if (response.data.result) {
+          this.fetchTasks()
         }
       })
     }
