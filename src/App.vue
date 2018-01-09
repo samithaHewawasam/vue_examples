@@ -6,6 +6,7 @@
       <li><router-link to="/register">Register</router-link> </li>
       <li><router-link to="/task">Task</router-link> </li>
       <li><router-link to="/profile">Profile</router-link></li>
+      <li><router-link to="/charts">Charts</router-link></li>
     </ul>
     <router-view/>
   </div>
