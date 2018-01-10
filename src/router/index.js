@@ -15,7 +15,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 const vueConfig = require('vue-config')
 const configs = {
-  API: 'http://localhost:8000/api'
+  API: 'http://todo-list-laravel-5-5.herokuapp.com/api'
 }
 
 Vue.use(vueConfig, configs)
