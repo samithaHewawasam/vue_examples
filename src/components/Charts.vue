@@ -38,7 +38,6 @@ export default {
           token: this.$localStorage.get('token')
         }
       }).then((response) => {
-
         for (let i = 0; i < response.data.result.tasks.length; i++) {
           if (typeof response.data.result.tasks[i] === 'undefined') {
             continue
@@ -46,9 +45,9 @@ export default {
           if (response.data.result.tasks[i].name) {
             this.users.push(response.data.result.tasks[i].name)
           }
-          if (response.data.result.tasks[i].done == 1) {
+          if (response.data.result.tasks[i].done === 1) {
             this.completes.data.push(response.data.result.tasks[i].status)
-          }else{
+          } else {
             this.pendings.data.push(response.data.result.tasks[i].status)
           }
         }
