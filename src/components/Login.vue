@@ -3,16 +3,17 @@
     <b-form v-on:submit="login" method="post">
     <div class="form-group row">
       <label>Email</label>
-        <b-form-input v-model="username" placeholder="Username" />
+        <b-form-input v-model="username" placeholder="Username" v-validate="'required|email'" type="text" name="email"/>
+        <span v-show="errors.has('email')">{{ errors.first('email') }}</span>
     </div>
     <div class="form-group row">
       <label>Password</label>
-        <b-input v-model="password" placeholder="password" />
+        <b-input v-model="password" placeholder="password" v-validate="'required'" type="password" name="password"/>
+        <span v-show="errors.has('password')">{{ errors.first('password') }}</span>
     </div>
       <div class="form-group row">
         <b-button type="submit">Login</b-button>
       </div>
-
     </b-form>
   </div>
 </template>
@@ -30,6 +31,10 @@ export default {
   methods: {
     login: function (event) {
       event.preventDefault()
+      if (this.errors.any() || !this.username || !this.password) {
+        this.$validator.validateAll()
+        return
+      }
       this.axios.post(this.$config.API + '/auth/login', {
         email: this.username,
         password: this.password
