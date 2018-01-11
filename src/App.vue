@@ -2,11 +2,12 @@
   <div id="app">
     <ul>
       <li><router-link to="/">Home</router-link></li>
-      <li><router-link to="/login">Login</router-link> </li>
-      <li><router-link to="/register">Register</router-link> </li>
-      <li><router-link to="/task">Task</router-link> </li>
-      <li><router-link to="/profile">Profile</router-link></li>
-      <li><router-link to="/charts">Charts</router-link></li>
+      <li><router-link v-if="!isLoggedIn" to="/login">Login</router-link> </li>
+      <li><router-link v-if="!isLoggedIn" to="/register">Register</router-link> </li>
+      <li><router-link v-if="isLoggedIn" to="/task">Task</router-link> </li>
+      <li><router-link v-if="isLoggedIn" to="/profile">Profile</router-link></li>
+      <li><router-link v-if="isLoggedIn" to="/charts">Charts</router-link></li>
+      <li><a href="#" v-if="isLoggedIn" @click="logout">Logout</a> </li>
     </ul>
     <router-view/>
   </div>
@@ -14,7 +15,17 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  methods: {
+    logout () {
+      this.$store.dispatch('logout')
+    }
+  },
+  computed: {
+    isLoggedIn () {
+      return this.$store.getters.isLoggedIn
+    }
+  }
 }
 </script>
 

@@ -18,6 +18,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'login',
   data () {
@@ -33,8 +34,11 @@ export default {
         email: this.username,
         password: this.password
       }).then((response) => {
-        console.log(response.data)
-        this.$localStorage.set('token', response.data.result.token)
+        if (response.data.response === 'success') {
+          this.$store.commit('logged')
+          this.$localStorage.set('token', response.data.result.token)
+          this.$router.push('/')
+        }
       })
     }
   }
