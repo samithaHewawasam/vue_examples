@@ -4,17 +4,26 @@ import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Profile from '@/components/Profile'
-import Task from '@/components/Task'
+import Tasks from '@/components/Tasks'
+import Charts from '@/components/Charts'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
+import VeeValidate from 'vee-validate'
+import VueLocalStorage from 'vue-localstorage'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+const vueConfig = require('vue-config')
+const configs = {
+  API: '//todo-list-laravel-5-5.herokuapp.com/api'
+}
 
+Vue.use(vueConfig, configs)
 Vue.use(BootstrapVue)
 Vue.use(Router)
 Vue.use(VueAxios, axios)
+Vue.use(VueLocalStorage)
+Vue.use(VeeValidate)
 
 export default new Router({
   routes: [
@@ -36,12 +45,17 @@ export default new Router({
     {
       path: '/task',
       name: 'Task',
-      component: Task
+      component: Tasks
     },
     {
       path: '/profile',
       name: 'Profile',
       component: Profile
+    },
+    {
+      path: '/charts',
+      name: 'Charts',
+      component: Charts
     }
   ]
 })
